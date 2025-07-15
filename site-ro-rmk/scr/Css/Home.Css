@@ -21,6 +21,36 @@ header p {
 .btn-cta:hover {
     transform: scale(1.05);
 }
+/*seção de serviço*/
+.services-section {
+    padding: 40px 0;
+    text-align: center;
+}
+.service-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+/*Seção do Call Action*/
+.cta-section {
+    background-color:  #007bff;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+.cta-section .btn {
+    background-color: #ffc107;
+    color: #000;
+    border: none;
+    padding: 10px 30px;
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+.cta-section .btn:hover {
+    transform: scale(1.05);
+}
 /*Rodapé do Site*/
 
 footer{
