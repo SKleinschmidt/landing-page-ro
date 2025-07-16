@@ -1,4 +1,5 @@
 /*Cabecalho do Site*/
+
 header {
     background: linear-gradient(45deg, #007bff, #00d4ff);
     color: white;
@@ -22,6 +23,7 @@ header p {
     transform: scale(1.05);
 }
 /*seção de serviço*/
+
 .services-section {
     padding: 40px 0;
     text-align: center;
@@ -34,6 +36,7 @@ header p {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 /*Seção do Call Action*/
+
 .cta-section {
     background-color:  #007bff;
     color: white;

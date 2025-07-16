@@ -1,33 +1,15 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const app = express();
+emailjs.init("F7YCU-SOPvTy__WmQ");
 
-app.use(express.json());
+  document.getElementById("contactForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-app.post('/api/send-email', (req, res) => {
-    const { name, email, message, recipient } = req.body;
-
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: 'sigfrid.kleisnchmidt@gmail.com, // Substitua pelo seu e-mail
-            pass: 'Sig9120@#' // Use uma senha de app ou variável de ambiente
-        }
-    });
-
-    const mailOptions = {
-        from: email,
-        to: recipient,
-        subject: `Nova mensagem de ${name}`,
-        text: `Nome: ${name}\nE-mail: ${email}\nMensagem: ${message}`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            return res.status(500).json({ error: 'Erro ao enviar e-mail' });
-        }
-        res.status(200).json({ message: 'E-mail enviado com sucesso' });
-    });
-});
-
-app.listen(3000, () => console.log('Servidor rodando na porta 3000'));
+    emailjs.sendForm("service_zojgfxa", "template_99ljqf4", this)
+      .then(() => {
+        alert("Email enviado com sucesso!");
+        this.reset(); // ✅ limpa os campos após o envio
+      })
+      .catch((err) => {
+        console.error("Erro:", err);
+        alert("Erro ao enviar. Veja o console para detalhes.");
+      });
+  });
