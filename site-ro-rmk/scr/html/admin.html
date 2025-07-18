@@ -1,0 +1,209 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Gerenciar Site</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .preview-btn {
+            margin-top: 10px;
+        }
+        .save-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Painel Administrativo</h1>
+
+        <!-- Formulário de Edição -->
+        <form id="adminForm">
+            <!-- Cabeçalho -->
+            <div class="form-group">
+                <label for="headerTitle" class="form-label">Título do Cabeçalho</label>
+                <input type="text" class="form-control" id="headerTitle" value="Impulsione Sua Marca com Marketing Digital" required>
+            </div>
+            <div class="form-group">
+                <label for="headerText" class="form-label">Texto do Cabeçalho</label>
+                <textarea class="form-control" id="headerText" rows="2" required>Soluções personalizadas para alavancar seus resultados online!</textarea>
+            </div>
+
+            <!-- Quem Sou Eu -->
+            <div class="form-group">
+                <label for="aboutImage" class="form-label">URL da Imagem (Quem Sou Eu)</label>
+                <input type="text" class="form-control" id="aboutImage" value="https://via.placeholder.com/300" required>
+            </div>
+            <div class="form-group">
+                <label for="aboutText" class="form-label">Texto (Quem Sou Eu)</label>
+                <textarea class="form-control" id="aboutText" rows="4" required>Sou uma especialista em Marketing Digital com mais de 5 anos de experiência, dedicada a ajudar empresas a crescerem online. Apaixonada por estratégias de conteúdo, análise de dados e engajamento nas redes sociais, trabalho para transformar sua marca em um sucesso digital!</textarea>
+            </div>
+
+            <!-- Serviços -->
+            <div class="form-group">
+                <label for="service1Title" class="form-label">Título Serviço 1</label>
+                <input type="text" class="form-control" id="service1Title" value="Análise de Campanhas" required>
+            </div>
+            <div class="form-group">
+                <label for="service1Text" class="form-label">Texto Serviço 1</label>
+                <textarea class="form-control" id="service1Text" rows="3" required>Monitoramos e otimizamos suas campanhas para maximizar o ROI, com relatórios detalhados e insights estratégicos.</textarea>
+            </div>
+            <div class="form-group">
+                <label for="service2Title" class="form-label">Título Serviço 2</label>
+                <input type="text" class="form-control" id="service2Title" value="Postagens no Facebook" required>
+            </div>
+            <div class="form-group">
+                <label for="service2Text" class="form-label">Texto Serviço 2</label>
+                <textarea class="form-control" id="service2Text" rows="3" required>Criamos conteúdo envolvente e estratégias personalizadas para engajar sua audiência no Facebook.</textarea>
+            </div>
+            <div class="form-group">
+                <label for="service3Title" class="form-label">Título Serviço 3</label>
+                <input type="text" class="form-control" id="service3Title" value="Postagens no Instagram" required>
+            </div>
+            <div class="form-group">
+                <label for="service3Text" class="form-label">Texto Serviço 3</label>
+                <textarea class="form-control" id="service3Text" rows="3" required>Desenvolvemos posts visuais e estratégias de hashtags para aumentar sua visibilidade e engajamento no Instagram.</textarea>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="form-group">
+                <label for="ctaTitle" class="form-label">Título do Call to Action</label>
+                <input type="text" class="form-control" id="ctaTitle" value="Pronto para Transformar Sua Presença Digital?" required>
+            </div>
+            <div class="form-group">
+                <label for="ctaText" class="form-label">Texto do Call to Action</label>
+                <textarea class="form-control" id="ctaText" rows="2" required>Fale com nossa equipe e descubra como podemos ajudar seu negócio a crescer!</textarea>
+            </div>
+
+            <!-- Botões -->
+            <button type="button" class="btn btn-primary preview-btn" onclick="previewChanges()">Pré-visualizar</button>
+            <button type="button" class="btn btn-success save-btn" onclick="saveChanges()">Salvar Alterações</button>
+        </form>
+
+        <!-- Área de Pré-visualização -->
+        <div id="previewArea" class="mt-4" style="display: none;">
+            <h3>Pré-visualização</h3>
+            <div id="previewContent"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function previewChanges() {
+            const previewContent = document.getElementById('previewContent');
+            previewContent.innerHTML = `
+                <h4>Cabeçalho</h4>
+                <h2>${document.getElementById('headerTitle').value}</h2>
+                <p>${document.getElementById('headerText').value}</p>
+                <h4>Quem Sou Eu</h4>
+                <img src="${document.getElementById('aboutImage').value}" alt="Foto" style="max-width: 300px; border-radius: 50%;">
+                <p>${document.getElementById('aboutText').value}</p>
+                <h4>Serviços</h4>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>${document.getElementById('service1Title').value}</h5>
+                        <p>${document.getElementById('service1Text').value}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>${document.getElementById('service2Title').value}</h5>
+                        <p>${document.getElementById('service2Text').value}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>${document.getElementById('service3Title').value}</h5>
+                        <p>${document.getElementById('service3Text').value}</p>
+                    </div>
+                </div>
+                <h4>Call to Action</h4>
+                <h2>${document.getElementById('ctaTitle').value}</h2>
+                <p>${document.getElementById('ctaText').value}</p>
+            `;
+            document.getElementById('previewArea').style.display = 'block';
+        }
+
+        function saveChanges() {
+            const data = {
+                headerTitle: document.getElementById('headerTitle').value,
+                headerText: document.getElementById('headerText').value,
+                aboutImage: document.getElementById('aboutImage').value,
+                aboutText: document.getElementById('aboutText').value,
+                service1Title: document.getElementById('service1Title').value,
+                service1Text: document.getElementById('service1Text').value,
+                service2Title: document.getElementById('service2Title').value,
+                service2Text: document.getElementById('service2Text').value,
+                service3Title: document.getElementById('service3Title').value,
+                service3Text: document.getElementById('service3Text').value,
+                ctaTitle: document.getElementById('ctaTitle').value,
+                ctaText: document.getElementById('ctaText').value
+            };
+            localStorage.setItem('siteData', JSON.stringify(data));
+            alert('Alterações salvas com sucesso!');
+        }
+
+        // Carregar dados salvos ao iniciar
+        window.onload = function() {
+            const savedData = localStorage.getItem('siteData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                document.getElementById('headerTitle').value = data.headerTitle || 'Impulsione Sua Marca com Marketing Digital';
+                document.getElementById('headerText').value = data.headerText || 'Soluções personalizadas para alavancar seus resultados online!';
+                document.getElementById('aboutImage').value = data.aboutImage || 'https://via.placeholder.com/300';
+                document.getElementById('aboutText').value = data.aboutText || 'Sou uma especialista em Marketing Digital com mais de 5 anos de experiência, dedicada a ajudar empresas a crescerem online. Apaixonada por estratégias de conteúdo, análise de dados e engajamento nas redes sociais, trabalho para transformar sua marca em um sucesso digital!';
+                document.getElementById('service1Title').value = data.service1Title || 'Análise de Campanhas';
+                document.getElementById('service1Text').value = data.service1Text || 'Monitoramos e otimizamos suas campanhas para maximizar o ROI, com relatórios detalhados e insights estratégicos.';
+                document.getElementById('service2Title').value = data.service2Title || 'Postagens no Facebook';
+                document.getElementById('service2Text').value = data.service2Text || 'Criamos conteúdo envolvente e estratégias personalizadas para engajar sua audiência no Facebook.';
+                document.getElementById('service3Title').value = data.service3Title || 'Postagens no Instagram';
+                document.getElementById('service3Text').value = data.service3Text || 'Desenvolvemos posts visuais e estratégias de hashtags para aumentar sua visibilidade e engajamento no Instagram.';
+                document.getElementById('ctaTitle').value = data.ctaTitle || 'Pronto para Transformar Sua Presença Digital?';
+                document.getElementById('ctaText').value = data.ctaText || 'Fale com nossa equipe e descubra como podemos ajudar seu negócio a crescer!';
+            }
+        };
+    </script>
+</body>
+</html>
