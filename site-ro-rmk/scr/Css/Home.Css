@@ -22,6 +22,18 @@ header p {
 .btn-cta:hover {
     transform: scale(1.05);
 }
+
+/*Seção Quem Sou Eu*/
+.about-section {
+    padding: 40px 0;
+    text-align: center;
+}
+.about-section img {
+    max-width: 300px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
 /*seção de serviço*/
 
 .services-section {
@@ -35,6 +47,20 @@ header p {
     margin: 15px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+/*Carousel*/
+
+.carousel-item img {
+    width: 100%;
+    height: 700px;
+    object-fit: cover;
+}
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
 /*Seção do Call Action*/
 
 .cta-section {
