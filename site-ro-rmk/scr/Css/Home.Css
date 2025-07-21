@@ -158,6 +158,22 @@ footer a :hover {
     height: 100%;
     border-radius: 50%;
 }
+/*Barra de aviso supeior*/
+.top-banner {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #7d0000;
+  z-index: 1050;
+  display: flex;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+body {
+  padding-top: 50px; /* Garante que a barra não sobreponha o conteúdo */
+}
+
 
 
 
