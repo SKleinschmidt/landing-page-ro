@@ -16,17 +16,19 @@ emailjs.init("F7YCU-SOPvTy__WmQ");
 
   // Fecha a barra superior ao clicar no botão ×
 
-  document.addEventListener('DOMContentLoaded', function () {
+  
   const closeBtn = document.getElementById('closeBanner');
-  const banner = document.querySelector('.top-banner');
+const banner = document.querySelector('.top-banner');
 
-  if (closeBtn && banner) {
-    closeBtn.addEventListener('click', function () {
-      banner.style.display= 'none';
-      document.body.style.paddingTop = '0';
-    });
-  }
-});
+if (closeBtn && banner) {
+  closeBtn.addEventListener('click', function () {
+    banner.style.display = 'none';
+    document.body.style.paddingTop = '0';
+  });
+}
+
+  
+
 
 
 
