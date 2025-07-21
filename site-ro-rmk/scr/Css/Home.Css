@@ -1,10 +1,11 @@
 /*Cabecalho do Site*/
 
 header {
-    background: linear-gradient(45deg, #007bff, #00d4ff);
-    color: white;
-    padding: 60px 0;
+    background: #7D0000;
+    color: #FFFFFF;
+    padding: 40px 0;
     text-align: center;
+    
 }
 header h1 {
     font-size:  2.5rem;
@@ -15,22 +16,35 @@ header p {
     margin: 20px 0;
 }
 .btn-cta {
+    background-color: white; /* Cor de fundo */
+    color:#7D0000;/* Cor do texto */
+    border: none;/* Remover borda se necessário */
+    border-radius: 6px; /* Arredondar bordas */
     font-size: 1.1rem;
+    font-weight: bold;
     padding: 10px 30px;
     transition: transform 0.3s ease;
 }
 .btn-cta:hover {
+    background-color: #e6b800; /* Cor ao passar o mouse */
+    color: #fff;               /* Cor do texto no hover */
     transform: scale(1.05);
 }
 
+body {
+    background-color:white;
+}
+
 /*Seção Quem Sou Eu*/
+
 .about-section {
     padding: 40px 0;
-    text-align: center;
+    text-align:center;
 }
+
 .about-section img {
     max-width: 300px;
-    border-radius: 50%;
+    border-radius: 10%;
     margin-bottom: 20px;
 }
 
@@ -41,7 +55,8 @@ header p {
     text-align: center;
 }
 .service-card {
-    background: #f8f9fa;
+    background: #7D0000;
+    color: white;
     border-radius: 10px;
     padding: 20px;
     margin: 15px;
@@ -52,7 +67,7 @@ header p {
 
 .carousel-item img {
     width: 100%;
-    height: 700px;
+    height: 450px;
     object-fit: cover;
 }
 .carousel-caption {
@@ -64,14 +79,14 @@ header p {
 /*Seção do Call Action*/
 
 .cta-section {
-    background-color:  #007bff;
+    background-color:  #7D0000;
     color: white;
     padding: 40px 0;
     text-align: center;
 }
 .cta-section .btn {
-    background-color: #ffc107;
-    color: #000;
+    background-color: white; /*#ffc107*/
+    color: #7D0000;
     border: none;
     padding: 10px 30px;
     font-size: 1.2rem;
@@ -80,6 +95,24 @@ header p {
 .cta-section .btn:hover {
     transform: scale(1.05);
 }
+
+/*Seção contato*/
+
+  .btn-enviar {
+    background-color: #7D0000; /* Cor de fundo do botão */
+    color: white;              /* Cor do texto */
+    border: none;
+    padding: 12px 20px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: transform 0.3s ease;
+  }
+
+  .btn-enviar:hover {
+    background-color:gainsboro; /* Cor no hover */
+    color: white;
+  }
+
 /*Rodapé do Site*/
 
 footer{
